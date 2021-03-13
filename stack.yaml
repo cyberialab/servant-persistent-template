@@ -1,0 +1,21 @@
+resolver: lts-16.23
+packages:
+  - '.'
+extra-deps:
+  - servant-multipart-0.12
+  - quickcheck-arbitrary-adt-0.3.1.0
+  - esqueleto-3.4.0.1
+  - persistent-2.11.0.2
+  - mtl-2.2.2
+  - persistent-template-2.9.1.0
+  - persistent-postgresql-2.11.0.1
+  - katip-0.8.5.0
+  - say-0.1.0.1
+  - monad-logger-0.3.36
+  - safe-exceptions-0.1.7.1
+  - wai-extra-3.1.6
+  - fast-logger-3.0.3
+  - safe-0.3.19
+  - wai-middleware-metrics-0.2.4
+  - resource-pool-0.2.3.2
+  - microlens-0.4.12.0

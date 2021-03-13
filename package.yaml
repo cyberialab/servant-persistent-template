@@ -1,0 +1,63 @@
+name: servant-persistent-template
+
+ghc-options: -Wall
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs:
+      - test
+    dependencies:
+      - hspec
+      - servant-persistent-template
+      - servant-client
+      - warp >= 3.2.4
+      - http-client
+      - http-types
+
+library:
+  source-dirs:
+    - src
+
+executables:
+  servant-persistent-template:
+    main: exe/Main.hs
+    dependencies:
+      - servant-persistent-template
+
+dependencies:
+  - base
+  - servant
+  - servant-server
+  - transformers
+  - servant-multipart
+  - http-client
+  - utf8-string
+  - persistent
+  - persistent-template
+  - persistent-postgresql
+  - monad-logger
+  - monad-metrics
+  - esqueleto
+  - aeson
+  - wai
+  - wai-extra
+  - text
+  - warp
+  - http-api-data
+  - bytestring
+  - containers
+  - QuickCheck
+  - quickcheck-arbitrary-adt
+  - wai-cors
+  - mtl
+  - katip
+  - say
+  - fast-logger
+  - safe-exceptions
+  - safe
+  - ekg
+  - wai-middleware-metrics
+  - resource-pool
+  - microlens
+  - hspec
