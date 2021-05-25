@@ -23,6 +23,7 @@ import Network.Wai.Middleware.RequestLogger (logStdout, logStdoutDev)
 import Servant (ServerError)
 import System.Environment (lookupEnv)
 import Katip hiding (Environment)
+import Servant (Handler)
 
 import Logger 
 
@@ -101,10 +102,11 @@ makePool Production env = do
          Nothing -> throwIO (userError "Database Configuration not present in environment.")
          Just a -> return a
 
+
 envPool :: Environment -> Int
 envPool Test        = 1
 envPool Development = 1
 envPool Production  = 8
 
 connStr :: BS.ByteString -> ConnectionString
-connStr sfx = "host=localhost dbname=persistentbackenddb" <> sfx <> " user=persistentadmin password=c@ts2021 port=5432"
+connStr sfx = "host=localhost dbname=myselfbackenddb" <> sfx <> " user=myselfadmin password=c@ts2021 port=5432"

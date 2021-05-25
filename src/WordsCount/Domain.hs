@@ -15,6 +15,15 @@ import GHC.Generics
 -- This type is to define the order of the word count result
 data SortBy = Asc | Desc deriving (Bounded, Show, Enum)
 
+-- Request type
+newtype WordsToCount
+  = WordsToCount {
+    textToCount :: String
+  } deriving (Eq, Show, Generic)
+
+instance FromJSON WordsToCount
+instance ToJSON WordsToCount
+
 -- Result type
 data WordCount
   = WordCount {
@@ -22,7 +31,6 @@ data WordCount
     count :: Integer
   } deriving (Eq, Show, Generic)
 
--- Intances necessary for mapping the WordCount type to/from json
 instance FromJSON WordCount
 instance ToJSON WordCount
 

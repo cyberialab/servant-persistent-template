@@ -1,5 +1,5 @@
-User
+User m
     ident Text
-    password Text Maybe
+    password (PasswordHash Bcrypt)
     UniqueUser ident
-    deriving Typeable
+    deriving (Eq)

@@ -33,6 +33,9 @@ dependencies:
   - servant-multipart
   - http-client
   - utf8-string
+  - password
+  - password-instances
+  - password-types
   - persistent
   - persistent-template
   - persistent-postgresql
@@ -61,3 +64,6 @@ dependencies:
   - resource-pool
   - microlens
   - hspec
+  - servant-auth
+  - servant-auth-server
+  - time
