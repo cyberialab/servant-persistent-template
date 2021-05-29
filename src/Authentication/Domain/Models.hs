@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
-
+{-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module Authentication.Domain.Models where
@@ -32,3 +32,5 @@ data Login = Login { loginUsername :: !Username, loginPassword :: !Text }
 
 instance ToJSON Login
 instance FromJSON Login
+
+type Authorized = Auth '[Cookie] AuthenticatedUser

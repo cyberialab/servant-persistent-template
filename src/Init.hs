@@ -26,7 +26,7 @@ import Data.Monoid ()
 import Control.Exception.Safe
 import System.Remote.Monitoring (forkServer, serverMetricStore, serverThreadId)
 import Logger (defaultLogEnv)
-
+import Servant.Auth.Server (defaultJWTSettings, fromSecret)
 import Network.Wai.Handler.Warp (run)
 
 lookupSetting :: Read a => String -> a -> IO a
@@ -50,12 +50,14 @@ tshow :: Show a => a -> Text
 tshow = Text.pack . show
 
 withConfig :: (Config -> IO a) -> IO a
-withConfig action = do
+withConfig runAppFromConfig = do
     say "Init.withConfig"
     port <- lookupSetting "PORT" 8081
     say $ "port: " <> tshow port
     env <- lookupSetting "ENV" Development
     say $ "env: " <> tshow env
+    secret <- lookupSetting "SECRET" "!#$ASDFeqwrqwerjlkq$%%#%aioqpKAOQKqoou!#411234asdfOQWP431$$%&&LKASDOWEQRJASDFNXZCOISADJQOWER$$%%&!" -- WARNING: This is just an example, in the real world you have to set the env variable
+    let jwk = fromSecret secret
     bracket defaultLogEnv (\x -> say "Closing katip scribes" >> Katip.closeScribes x) $ \logEnv -> do
         say $ "Got log env"
         !pool <- makePool env logEnv `onException` say "Exception while running makePool"
@@ -66,12 +68,13 @@ withConfig action = do
             say "RegisteredWaiMetrics"
             metr <- M.initializeWith store
             say "Got metrics"
-            action Config 
+            runAppFromConfig Config 
                 { configPool = pool
                 , configEnv = env
                 , configMetrics = metr
                 , configLogEnv = logEnv
                 , configPort = port
+                , configJWTSettings = defaultJWTSettings jwk
                 , configEkgServer = serverThreadId ekgServer
                 }
 

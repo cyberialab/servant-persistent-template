@@ -23,7 +23,7 @@ import Network.Wai.Middleware.RequestLogger (logStdout, logStdoutDev)
 import Servant (ServerError)
 import System.Environment (lookupEnv)
 import Katip hiding (Environment)
-import Servant (Handler)
+import Servant.Auth.Server (JWTSettings)
 
 import Logger 
 
@@ -39,6 +39,7 @@ data Config
     , configEnv :: Environment
     , configMetrics :: Metrics
     , configEkgServer :: ThreadId
+    , configJWTSettings :: JWTSettings
     , configLogEnv :: LogEnv
     , configPort :: Port
     }
