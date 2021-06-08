@@ -3,20 +3,30 @@
 
 module Authentication.Domain.Queries.LoginUser where
 
-import Authentication.Domain.Models (AuthenticatedUser (..), Login)
-import Authentication.Repository.UserRepository (ErrGetUserByLogin (ReplicatedUser, UserDoesNotExist), GetUserByLogin)
+import Authentication.Domain.Models
+
 import Base.Error (Err (AnyErr, SpecificErr))
 import Servant.Auth.Server
 
-matchAuthenticatedUser :: (Monad m) => Login -> GetUserByLogin m -> m (AuthResult AuthenticatedUser)
-matchAuthenticatedUser login getUserByLogin = do
-  authUser <- getUserByLogin login
+validateUser :: (Monad m) => Either (Err ErrGetUserByLogin) AuthenticatedUser -> m (AuthResult AuthenticatedUser)
+validateUser authUser =
   case authUser of
     Left (SpecificErr err) ->
       case err of
         UserDoesNotExist -> return NoSuchUser
-        ReplicatedUser -> return Indefinite
+        _ -> return Indefinite
     Left AnyErr ->
       return Indefinite
     Right user ->
       return $ Authenticated user
+
+loginUser :: (Monad m) => CheckPassword m -> GetSavedUserByLogin m -> Login -> m (AuthResult AuthenticatedUser)
+loginUser checkPassword getSavedUserByLogin login = do
+  savedUser <- getSavedUserByLogin login
+  case savedUser of
+    Left getUserError -> validateUser (Left getUserError)
+    Right user -> do
+      checkedUser <- checkPassword login user
+      validateUser checkedUser
+         
+  

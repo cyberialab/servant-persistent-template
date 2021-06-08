@@ -56,8 +56,11 @@ server :: (MonadIO m) => ConnectionPool -> JWTSettings -> ServerT API (AppT m)
 server pool jwtSettings = do
   countWordsAPI :<|> authenticationServer defaultCookieSettings jwtSettings pool 
 
+cookieSettings :: CookieSettings
+cookieSettings = defaultCookieSettings { cookieIsSecure = NotSecure, cookieSameSite = SameSiteStrict, cookieXsrfSetting = Nothing }
+
 -- Creates IO application from API definition and serrver
 mkApp :: Config -> Application
 mkApp config = do
-  let ctx = defaultCookieSettings :. (configJWTSettings config) :. EmptyContext
+  let ctx = cookieSettings :. (configJWTSettings config) :. EmptyContext
   serveWithContext api ctx (appToServer config)

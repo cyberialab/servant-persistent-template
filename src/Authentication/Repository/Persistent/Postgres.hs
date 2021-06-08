@@ -5,7 +5,7 @@
 module Authentication.Repository.Persistent.Postgres where
 
 import Authentication.Repository.UserRepository
-import Authentication.Domain.Models (Login(..), SignUp(..), AuthenticatedUser(..))
+import Authentication.Domain.Models
 
 import Data.Password.Types (mkPassword) 
 import Data.Password.Bcrypt (hashPassword)
@@ -17,23 +17,26 @@ import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Logger ( logDebugNS, MonadLogger(..))
 
 import Database as DB
-    ( EntityField(UserIdent, UserPassword), User(User, userIdent) )
+    ( EntityField(UserIdent), User(User, userIdent, userPassword) )
     
 import Base.Error (Err( SpecificErr))
 
 mapUserToAuthenticatedUser :: User -> AuthenticatedUser
-mapUserToAuthenticatedUser user = AuthenticatedUser { authUsername = userIdent user }
+mapUserToAuthenticatedUser user = AuthenticatedUser (userIdent user)
 
-getUserPostgres :: (MonadIO m, MonadLogger m) => ConnectionPool -> GetUserByLogin m
+mapUserToSavedUser :: User -> SavedUser
+mapUserToSavedUser user = SavedUser (userIdent user) (userPassword user)
+
+getUserPostgres :: (MonadIO m, MonadLogger m) => ConnectionPool -> GetSavedUserByLogin m
 getUserPostgres pool login = do
     logDebugNS "web" "getUserPostgres"
-    hashedPsw <- hashPassword $ mkPassword $ loginPassword login
-    let query = selectList [UserIdent ==. loginUsername login, UserPassword ==. hashedPsw] []
+
+    let query = selectList [UserIdent ==. loginUsername login] []
     users <- liftIO $ runSqlPool query pool
     
     case length users of 
         0 -> return $ Left (SpecificErr UserDoesNotExist)
-        1 -> return $ Right $ head $ map (mapUserToAuthenticatedUser . entityVal) users
+        1 -> return $ Right $ head $ map (mapUserToSavedUser . entityVal) users
         _ -> return $ Left (SpecificErr ReplicatedUser)
 
 createUserPostgres :: (MonadIO m, MonadLogger m) => ConnectionPool -> CreateUserBySignup m

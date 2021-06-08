@@ -1,18 +1,15 @@
-module AppSpec where
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
+module WordsCountSpec where
 
 import Test.Hspec
 import Test.QuickCheck.Arbitrary.ADT
 
-import App hiding (getItems)
-
 import Data.List (intercalate, find)
 
-import Data.Map (Map)
 import qualified Data.Map as Map
 
 import Test.QuickCheck
-
-import Control.Monad.IO.Class (liftIO)
 
 import WordsCount.Domain
 
@@ -51,12 +48,12 @@ spec = do
       forAll randomList $ \list ->
         forAll (choose (0 :: Int, length list - 1)) $ \n ->
           let numberOfFilter = length $ filter (\w -> w == list!!n) $ list
-              numberOfMap = Map.findWithDefault 0 (list!!n) (countWordsMap list Map.empty)
+              numberOfMap = Map.findWithDefault 0 (list!!n) (countWordsMap list)
           in
             numberOfMap == toInteger numberOfFilter
           
     it "turns an empty list of Strings into an empty Map" $ \ env ->
-      countWordsMap [] Map.empty `shouldBe` Map.empty
+      countWordsMap [] `shouldBe` Map.empty
 
     it "checks ordering of two WordCount elements" $ \ env ->
       property $ \w1@(WordCount _ countA) w2@(WordCount _ countB) ->
@@ -81,7 +78,7 @@ spec = do
         forAll (choose (0 :: Int, length list - 1)) $ \n ->
           let numberOfFilter = length $ filter (\w -> w == list!!n) list
               intercalated = intercalate " " list
-              maybeWord = find (\w -> word w == list!!n) (countWords intercalated Nothing)
+              maybeWord = find (\w -> word w == list!!n) (countWords intercalated)
           in
             case maybeWord of
               Nothing ->

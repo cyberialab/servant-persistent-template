@@ -110,4 +110,4 @@ envPool Development = 1
 envPool Production  = 8
 
 connStr :: BS.ByteString -> ConnectionString
-connStr sfx = "host=localhost dbname=myselfbackenddb" <> sfx <> " user=myselfadmin password=c@ts2021 port=5432"
+connStr sfx = "host=localhost dbname=testdb" <> sfx <> " user=admin password=pass port=5432"

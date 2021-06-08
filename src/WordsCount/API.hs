@@ -5,6 +5,7 @@
 
 module WordsCount.API where
 import WordsCount.Domain ( SortBy, WordCount, WordsToCount, textToCount, countWords, sortArray )
+
 import Servant.Multipart
     ( MultipartForm,
       FileData(fdPayload),

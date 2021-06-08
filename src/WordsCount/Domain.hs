@@ -42,9 +42,9 @@ assocToWordCount :: (String, Integer) -> WordCount
 assocToWordCount (w, c) = WordCount w c
 
 -- From a splitted string creates a Map with the word and count association
-countWordsMap :: [String] -> Map String Integer -> Map String Integer
-countWordsMap l m =
-  foldl (\ mp x -> Map.insert x (Map.findWithDefault 0 x mp + 1) m) m l
+countWordsMap :: [String] -> Map String Integer
+countWordsMap l =
+  foldl (\ mp x -> Map.insert x ((Map.findWithDefault 0 x mp) + 1) mp) Map.empty l
 
 -- This is the usual way to create orderings in Haskell, using the types LT (Lower than) and GT (Greater than)
 compareWordCount :: WordCount -> WordCount -> Ordering
@@ -64,4 +64,4 @@ countWords text =
   let
     splitted = map (filter (/='"')) $ words text
   in
-    map assocToWordCount $ Map.assocs (countWordsMap splitted  Map.empty)
+    map assocToWordCount $ Map.assocs (countWordsMap splitted)
