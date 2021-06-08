@@ -67,3 +67,4 @@ dependencies:
   - servant-auth
   - servant-auth-server
   - time
+  - quickcheck-text
