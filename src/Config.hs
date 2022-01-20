@@ -9,7 +9,7 @@ import Control.Concurrent (ThreadId)
 import Control.Exception.Safe (throwIO)
 import Control.Monad.Except (ExceptT, MonadError)
 import Control.Monad.IO.Class
-import Control.Monad.Logger (MonadLogger(..))
+import Control.Monad.Logger (MonadLogger(..), MonadLoggerIO(..))
 import Control.Monad.Metrics (Metrics, MonadMetrics, getMetrics)
 import Control.Monad.Reader (MonadReader, ReaderT, asks)
 import Control.Monad.Trans.Class ( MonadTrans(lift) )
@@ -66,6 +66,11 @@ instance MonadIO m => MonadLogger (AppT m) where
 
 instance MonadIO m => MonadLogger (KatipT m) where 
     monadLoggerLog = adapt logMsg
+instance Katip IO where
+    getLogEnv = defaultLogEnv
+    localLogEnv _ io = io
+instance MonadIO m => MonadLoggerIO (KatipT m) where 
+    askLoggerIO = KatipT $ return $ adapt logMsg
 
 setLogger :: Environment -> Middleware
 setLogger Test = id
