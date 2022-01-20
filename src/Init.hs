@@ -2,7 +2,7 @@
 
 module Init where
 
-import Config (Config(..), Environment(..), makePool, setLogger)
+import Config (Config(..), Environment(..), makePool, katipLogger, setLogger)
 
 import Say 
 import System.Environment (lookupEnv)
@@ -83,6 +83,8 @@ initialize cfg = do
     say "Init.initialize"
     waiMetrics <- registerWaiMetrics (configMetrics cfg ^. M.metricsStore)
     say "Wai metrics registered"
+    let kLogger = katipLogger (configLogEnv cfg)
+    say "Katip logger was set"
     let logger = setLogger (configEnv cfg)
     say "Logger was set"
     bracket 
@@ -99,7 +101,7 @@ initialize cfg = do
                     ]
                 throwIO e
             say "Completed runSqlPool"
-    pure . logger . metrics waiMetrics . mkApp $ cfg
+    pure . kLogger. logger . metrics waiMetrics . mkApp $ cfg
 
 shutdownApp :: Config -> IO ()
 shutdownApp cfg = do

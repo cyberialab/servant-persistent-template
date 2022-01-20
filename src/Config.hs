@@ -72,11 +72,6 @@ instance Katip IO where
 instance MonadIO m => MonadLoggerIO (KatipT m) where 
     askLoggerIO = KatipT $ return $ adapt logMsg
 
-setLogger :: Environment -> Middleware
-setLogger Test = id
-setLogger Development = logStdoutDev
-setLogger Production = logStdout
-
 katipLogger :: LogEnv -> Middleware
 katipLogger env app req respond = runKatipT env $ do
     logMsg "web" InfoS "todo: received some request"
