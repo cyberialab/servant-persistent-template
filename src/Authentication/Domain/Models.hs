@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -17,27 +18,16 @@ type Username = Text
 type HashedPassword = PasswordHash Bcrypt
 
 newtype AuthenticatedUser = AuthenticatedUser Username
-  deriving (Show, Generic)
-
-instance ToJSON AuthenticatedUser
-instance FromJSON AuthenticatedUser
-instance ToJWT AuthenticatedUser
-instance FromJWT AuthenticatedUser
+  deriving (Show, Generic, FromJSON, ToJSON, FromJWT, ToJWT)
 
 data SavedUser = SavedUser Username HashedPassword
   deriving (Show, Generic)
 
 data SignUp = SignUp { signUpUsername :: !Username, signUpPassword :: !Password }
-   deriving (Show, Generic)
-
-instance ToJSON SignUp
-instance FromJSON SignUp
+   deriving (Show, Generic, FromJSON, ToJSON)
 
 data Login = Login { loginUsername :: !Username, loginPassword :: !Password }
-   deriving (Show, Generic)
-
-instance ToJSON Login
-instance FromJSON Login
+   deriving (Show, Generic, FromJSON, ToJSON)
 
 type Authorized = Auth '[Cookie, JWT] AuthenticatedUser
 
