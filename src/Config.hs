@@ -1,6 +1,4 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE OverloadedStrings #-}
-
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module Config where

@@ -1,5 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE OverloadedStrings #-}
+
 module Util.Database.Persist.Postgresql.Json where
 
 import Data.Aeson

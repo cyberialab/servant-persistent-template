@@ -25,3 +25,7 @@ servant-persistent-template.cabal
 .vscode/
 .metals/
 project/
+
+# emacs
+*~
+\#*\#

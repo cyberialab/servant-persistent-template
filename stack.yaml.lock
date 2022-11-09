@@ -124,10 +124,10 @@ packages:
   original:
     hackage: microlens-0.4.13.0
 - completed:
-    hackage: servant-auth-server-0.4.6.0@sha256:b411b44f4252e91e5da2455d71a7113c8b5b8ff2d943d19b2ddedcfcf0392351,5111
+    hackage: servant-auth-server-0.4.6.0@sha256:dc376c76780259cb8d4850179bb456c3fcd057a97c62e260214b7111b4755a45,5254
     pantry-tree:
       size: 1376
-      sha256: 8cd29612112546a02085e2cb30dd5a72ea46ed81e644195c589d0b26652279cb
+      sha256: 7fad68f290c5933e88bf6ed0da2b4cdcd6b9a43fdf71dea571c0dee0ace51da8
   original:
     hackage: servant-auth-server-0.4.6.0
 - completed:
@@ -173,12 +173,12 @@ packages:
   original:
     hackage: servant-client-0.18.3
 - completed:
-    hackage: servant-client-core-0.18@sha256:6702f04f3e5ac47abace5b26ab1948480437334747895407f0697502a403b96a,3593
+    hackage: servant-client-core-0.18.3@sha256:db2551c94cc17bef7682602082d6a16e79593cfc939f2d696d4ccee21b2b2091,3649
     pantry-tree:
       size: 1444
-      sha256: 20f538ae12091696073a2ac5f3301a4a56686f5e2889b2a9e539c0d61a332cd1
+      sha256: cc2087f25bde5bbb6174320ef499366a7005ac646ba0256225a0758bec91a3cd
   original:
-    hackage: servant-client-core-0.18
+    hackage: servant-client-core-0.18.3
 - completed:
     hackage: cryptonite-0.30@sha256:12c85dea7be63e5ad90bcb487eb3846bf3c413347f94336fa1dede7b28f9936a,18301
     pantry-tree:

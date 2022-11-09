@@ -1,6 +1,4 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverloadedStrings #-}
-
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module AuthenticationSpec where

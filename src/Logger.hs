@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Logger
     ( adapt
     , defaultLogEnv
